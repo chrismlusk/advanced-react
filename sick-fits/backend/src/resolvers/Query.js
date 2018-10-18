@@ -11,7 +11,8 @@ const Query = {
   // to be handled. No need to rewrite the query resolver!
   // ==========================================================================
 
-  items: forwardTo('db')
+  items: forwardTo('db'),
+  item: forwardTo('db')
 
   // async items(parent, args, ctx, info) {
   //   try {

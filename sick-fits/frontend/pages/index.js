@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
+import Items from '../components/Items';
 
 const Home = props => (
   <Fragment>
-    <h1>Home!</h1>
+    <Items />
   </Fragment>
 );
 
