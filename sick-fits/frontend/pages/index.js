@@ -3,7 +3,7 @@ import Items from '../components/Items';
 
 const Home = props => (
   <Fragment>
-    <Items />
+    <Items page={Number(props.query.page) || 1} />
   </Fragment>
 );
 

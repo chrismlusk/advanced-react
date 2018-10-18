@@ -12,7 +12,8 @@ const Query = {
   // ==========================================================================
 
   items: forwardTo('db'),
-  item: forwardTo('db')
+  item: forwardTo('db'),
+  itemsConnection: forwardTo('db')
 
   // async items(parent, args, ctx, info) {
   //   try {
