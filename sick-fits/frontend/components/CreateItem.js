@@ -47,7 +47,7 @@ class CreateItem extends Component {
     Router.push({
       pathname: '/item',
       query: { id: res.data.createItem.id }
-    })
+    });
   };
 
   handleFileUpload = async event => {
@@ -64,7 +64,6 @@ class CreateItem extends Component {
       }
     );
     const file = await res.json();
-    console.log('file:', file);
     this.setState({
       image: file.secure_url,
       largeImage: file.eager[0].secure_url
@@ -74,7 +73,7 @@ class CreateItem extends Component {
   render() {
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
-        {(createItem, { loading, error }) => (
+        {(createItem, { error, loading }) => (
           <Form onSubmit={event => this.handleSubmit(event, createItem)}>
             <ErrorMessage error={error} />
             <fieldset disabled={loading} aria-busy={loading}>

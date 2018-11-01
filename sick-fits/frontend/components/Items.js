@@ -43,9 +43,9 @@ class Items extends Component {
             skip: this.props.page * perPage - perPage
           }}
         >
-          {({ data, error, loading }) => {
-            if (loading) return <p>Loading...</p>;
+          {({ error, loading, data }) => {
             if (error) return <p>Error: {error.message}</p>;
+            if (loading) return <p>Loading...</p>;
             return (
               <ItemsList>
                 {data.items.map(item => (

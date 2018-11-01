@@ -62,12 +62,12 @@ class UpdateItem extends Component {
   render() {
     return (
       <Query query={SINGLE_ITEM_QUERY} variables={{ id: this.props.id }}>
-        {({ data, loading }) => {
+        {({ loading, data }) => {
           if (loading) return <p>Loading...</p>;
           if (!data.item) return <p>No item found for ID# {this.props.id}</p>;
           return (
             <Mutation mutation={UPDATE_ITEM_MUTATION} variables={this.state}>
-              {(updateItem, { loading, error }) => (
+              {(updateItem, { error, loading }) => (
                 <Form onSubmit={event => this.handleSubmit(event, updateItem)}>
                   <ErrorMessage error={error} />
                   <fieldset disabled={loading} aria-busy={loading}>
