@@ -1,4 +1,11 @@
-function hasPermission(user, permissionsNeeded) {
+function isLoggedIn(user = {}) {
+  if (!user.id) {
+    throw new Error(`You must be logged in to do that!`);
+  }
+  return true;
+}
+
+function hasPermission(user, permissionsNeeded = []) {
   const matchedPermissions = user.permissions.filter(permissionTheyHave =>
     permissionsNeeded.includes(permissionTheyHave)
   );
@@ -15,3 +22,4 @@ function hasPermission(user, permissionsNeeded) {
 }
 
 exports.hasPermission = hasPermission;
+exports.isLoggedIn = isLoggedIn;

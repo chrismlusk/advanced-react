@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import CreateItem from '../components/CreateItem';
+import PleaseSignIn from '../components/PleaseSignIn';
 
 const Sell = () => (
-  <Fragment>
+  <PleaseSignIn>
     <CreateItem />
-  </Fragment>
+  </PleaseSignIn>
 );
 
 export default Sell;
