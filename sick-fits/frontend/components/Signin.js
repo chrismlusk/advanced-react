@@ -30,7 +30,6 @@ class Signin extends Component {
   handleSubmit = async (event, signinMutation) => {
     event.preventDefault();
     const res = await signinMutation();
-    console.log(res);
     this.setState(this.initialState);
   };
 
