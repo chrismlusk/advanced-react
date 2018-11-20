@@ -2,14 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
-const { isLoggedIn } = require('../utils');
+const { isLoggedIn, hasPermission } = require('../utils');
 const { transport, emailTemplate } = require('../mail');
 
 const Mutations = {
   async createItem(parent, args, ctx, info) {
-    if (!ctx.request.userId) {
-      throw new Error(`You must be logged in to do that!`);
-    }
+    isLoggedIn(ctx.request.user);
 
     try {
       const item = await ctx.db.mutation.createItem(
@@ -198,7 +196,32 @@ const Mutations = {
 
     // 7. return the new user
     return updatedUser;
-  }
+  },
+
+  async updatePermissions(parent, args, ctx, info) {
+    // 1. check if they're logged in
+    isLoggedIn(ctx.request.user);
+
+    // 2. query the current user
+    const currentUser = await ctx.db.query.user({
+      where: { id: ctx.request.userId }
+    }, info);
+
+    // 3. check if they have permissions to do this
+    hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+
+    // 4. update the permissions
+    return ctx.db.mutation.updateUser({
+      where: {
+        id: args.userId
+      },
+      data: {
+        permissions: {
+          set: args.permissions
+        }
+      },
+    }, info)
+  },
 };
 
 module.exports = Mutations;
