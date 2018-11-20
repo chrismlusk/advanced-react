@@ -14,7 +14,17 @@ export default class MyDocument extends Document {
   render() {
     return (
       <html lang="en">
-        <Head>{this.props.styleTags}</Head>
+        <Head>
+          <style dangerouslySetInnerHTML={{__html:`
+            @font-face {
+              font-family: 'radnika_next';
+              src: url('/static/radnikanext-medium-webfont.woff2') format('woff2');
+              font-weight: normal;
+              font-style: normal;
+            }
+          `}}/>
+          {this.props.styleTags}
+        </Head>
         <body>
           <Main />
           <NextScript />

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import styled, { ThemeProvider, injectGlobal } from 'styled-components';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Meta from './Meta';
 import Header from './Header';
 
@@ -13,13 +13,7 @@ const theme = {
   bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)'
 };
 
-injectGlobal`
-  @font-face {
-    font-family: 'radnika_next';
-    src: url('/static/radnikanext-medium-webfont.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-  }
+const GlobalStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
     font-size: 10px;
@@ -57,6 +51,7 @@ class Page extends Component {
     return (
       <ThemeProvider theme={theme}>
         <StyledPage>
+          <GlobalStyles />
           <Meta />
           <Header />
           <Inner>{this.props.children}</Inner>
