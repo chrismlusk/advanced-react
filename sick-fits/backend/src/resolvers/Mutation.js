@@ -49,11 +49,22 @@ const Mutations = {
 
   async deleteItem(parent, args, ctx, info) {
     const where = { id: args.id };
+
     // 1. Find the item.
-    const item = await ctx.db.query.item({ where }, `{ id, title }`);
+    const item = await ctx.db.query.item(
+      { where },
+      `{ id, title, user { id } }`
+    );
 
     // 2. Check if they own the item or have permissions.
-    // TOOD
+    const ownsItem = item.user.id === ctx.request.userId;
+    const hasPermissions = ctx.request.user.permissions.some(permission =>
+      ['ADMIN', 'ITEMDELETE'].includes(permission)
+    );
+
+    if (!ownsItem && !hasPermissions) {
+      throw new Error(`You don't have permission to do that`);
+    }
 
     // 3. Delete it!
     return ctx.db.mutation.deleteItem({ where }, info);
@@ -133,7 +144,7 @@ const Mutations = {
     // 2. set a reset token and expiry on that user
     const randomBytesPromisified = promisify(randomBytes);
     const resetToken = (await randomBytesPromisified(20)).toString('hex');
-    const resetTokenExpiry = Date.now() + (1000 * 60 * 60); // 1 hour from now
+    const resetTokenExpiry = Date.now() + 1000 * 60 * 60; // 1 hour from now
     const res = await ctx.db.mutation.updateUser({
       where: { email },
       data: { resetToken, resetTokenExpiry }
@@ -147,7 +158,9 @@ const Mutations = {
       html: emailTemplate(`
         Your password reset token is here!
         \n\n
-        <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click here</a>
+        <a href="${
+          process.env.FRONTEND_URL
+        }/reset?resetToken=${resetToken}">Click here</a>
       `)
     });
 
@@ -167,7 +180,7 @@ const Mutations = {
     const [user] = await ctx.db.query.users({
       where: {
         resetToken,
-        resetTokenExpiry_gte: Date.now() - (1000 * 60 * 60)
+        resetTokenExpiry_gte: Date.now() - 1000 * 60 * 60
       }
     });
     if (!user) throw new Error(`This token is either invalid or expired!`);
@@ -203,25 +216,31 @@ const Mutations = {
     isLoggedIn(ctx.request.user);
 
     // 2. query the current user
-    const currentUser = await ctx.db.query.user({
-      where: { id: ctx.request.userId }
-    }, info);
+    const currentUser = await ctx.db.query.user(
+      {
+        where: { id: ctx.request.userId }
+      },
+      info
+    );
 
     // 3. check if they have permissions to do this
     hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
 
     // 4. update the permissions
-    return ctx.db.mutation.updateUser({
-      where: {
-        id: args.userId
-      },
-      data: {
-        permissions: {
-          set: args.permissions
+    return ctx.db.mutation.updateUser(
+      {
+        where: {
+          id: args.userId
+        },
+        data: {
+          permissions: {
+            set: args.permissions
+          }
         }
       },
-    }, info)
-  },
+      info
+    );
+  }
 };
 
 module.exports = Mutations;
