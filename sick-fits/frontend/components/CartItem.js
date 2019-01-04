@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import RemoveFromCart from './RemoveFromCart';
@@ -24,17 +24,23 @@ const CartItem = ({ cartItem }) => {
   const { id, item, quantity } = cartItem;
   return (
     <CartItemStyles>
-      <img width="100" src={item.image} alt={item.title} />
-      <div className="cart-item-details">
-        <h3>{item.title}</h3>
-        <p>
-          {formatMoney(item.price * quantity)}
-          {' - '}
-          <em>
-            {quantity} &times; {formatMoney(item.price)} each
-          </em>
-        </p>
-      </div>
+      {!item ? (
+        <p>This item has been removed</p>
+      ) : (
+        <Fragment>
+          <img width="100" src={item.image} alt={item.title} />
+          <div className="cart-item-details">
+            <h3>{item.title}</h3>
+            <p>
+              {formatMoney(item.price * quantity)}
+              {' - '}
+              <em>
+                {quantity} &times; {formatMoney(item.price)} each
+              </em>
+            </p>
+          </div>
+        </Fragment>
+      )}
       <RemoveFromCart id={id} />
     </CartItemStyles>
   );
