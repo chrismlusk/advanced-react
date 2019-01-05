@@ -1,6 +1,7 @@
 import React from 'react';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { adopt } from 'react-adopt';
 import User from './User';
 import CartItem from './CartItem';
 import CartStyles from './styles/CartStyles';
@@ -22,47 +23,48 @@ export const TOGGLE_CART_MUTATION = gql`
   }
 `;
 
+const Composed = adopt({
+  user: ({ render }) => <User>{render}</User>,
+  toggleCart: ({ render }) => (
+    <Mutation mutation={TOGGLE_CART_MUTATION}>{render}</Mutation>
+  ),
+  localState: ({ render }) => <Query query={LOCAL_STATE_QUERY}>{render}</Query>
+});
+
 const Cart = () => (
-  <User>
-    {({ data: { me } }) => {
-      if (!me) return null;
+  <Composed>
+    {({ user, toggleCart, localState }) => {
+      const { me } = user.data;
       const { name, cart } = me;
+      if (!me) return null;
       return (
-        <Mutation mutation={TOGGLE_CART_MUTATION}>
-          {toggleCart => (
-            <Query query={LOCAL_STATE_QUERY}>
-              {({ data }) => (
-                <CartStyles open={data.cartOpen}>
-                  <header>
-                    <CloseButton onClick={toggleCart} title="close">
-                      &times;
-                    </CloseButton>
-                    <Supreme>
-                      {`${name}${name.slice(-1) === 's' ? `'` : `'s`}`}{' '}
-                      Cart
-                    </Supreme>
-                    <p>
-                      You have {cart.length} item
-                      {cart.length === 1 ? '' : 's'} in your cart.
-                    </p>
-                  </header>
-                  <ul>
-                    {cart.map(cartItem => (
-                      <CartItem key={cartItem.id} cartItem={cartItem} />
-                    ))}
-                  </ul>
-                  <footer>
-                    <p>{formatMoney(calcTotalPrice(cart))}</p>
-                    <SickButton>Checkout</SickButton>
-                  </footer>
-                </CartStyles>
-              )}
-            </Query>
-          )}
-        </Mutation>
+        <CartStyles open={localState.data.cartOpen}>
+          <header>
+            <CloseButton onClick={toggleCart} title="close">
+              &times;
+            </CloseButton>
+            <Supreme>
+              {`${name}${name.slice(-1) === 's' ? `'` : `'s`}`}{' '}
+              Cart
+            </Supreme>
+            <p>
+              You have {cart.length} item
+              {cart.length === 1 ? '' : 's'} in your cart.
+            </p>
+          </header>
+          <ul>
+            {cart.map(cartItem => (
+              <CartItem key={cartItem.id} cartItem={cartItem} />
+            ))}
+          </ul>
+          <footer>
+            <p>{formatMoney(calcTotalPrice(cart))}</p>
+            <SickButton>Checkout</SickButton>
+          </footer>
+        </CartStyles>
       );
     }}
-  </User>
+  </Composed>
 );
 
 export default Cart;
