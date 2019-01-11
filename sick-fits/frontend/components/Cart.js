@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { adopt } from 'react-adopt';
 import User from './User';
 import CartItem from './CartItem';
+import TakeMyMoney from './TakeMyMoney';
 import CartStyles from './styles/CartStyles';
 import Supreme from './styles/Supreme';
 import CloseButton from './styles/CloseButton';
@@ -23,6 +24,7 @@ export const TOGGLE_CART_MUTATION = gql`
   }
 `;
 
+/* eslint-disable */
 const Composed = adopt({
   user: ({ render }) => <User>{render}</User>,
   toggleCart: ({ render }) => (
@@ -30,6 +32,7 @@ const Composed = adopt({
   ),
   localState: ({ render }) => <Query query={LOCAL_STATE_QUERY}>{render}</Query>
 });
+/* eslint-enable */
 
 const Cart = () => (
   <Composed>
@@ -44,8 +47,7 @@ const Cart = () => (
               &times;
             </CloseButton>
             <Supreme>
-              {`${name}${name.slice(-1) === 's' ? `'` : `'s`}`}{' '}
-              Cart
+              {`${name}${name.slice(-1) === 's' ? `'` : `'s`}`} Cart
             </Supreme>
             <p>
               You have {cart.length} item
@@ -59,7 +61,11 @@ const Cart = () => (
           </ul>
           <footer>
             <p>{formatMoney(calcTotalPrice(cart))}</p>
-            <SickButton>Checkout</SickButton>
+            {me.cart.length && (
+              <TakeMyMoney>
+                <SickButton>Checkout</SickButton>
+              </TakeMyMoney>
+            )}
           </footer>
         </CartStyles>
       );

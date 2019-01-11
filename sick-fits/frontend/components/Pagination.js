@@ -5,7 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import ErrorMessage from './ErrorMessage';
 import PaginationStyles from './styles/PaginationStyles';
-import { perPage } from '../config';
+import { PER_PAGE } from '../config';
 
 const PAGINATION_QUERY = gql`
   query PAGINATION_QUERY {
@@ -24,7 +24,7 @@ const Pagination = props => (
       if (loading) return <p>Loading...</p>;
       const { count } = data.itemsConnection.aggregate;
       const { page } = props;
-      const pages = Math.ceil(count / perPage);
+      const pages = Math.ceil(count / PER_PAGE);
       return (
         <PaginationStyles>
           <Head>
@@ -39,9 +39,13 @@ const Pagination = props => (
               query: { page: page - 1 }
             }}
           >
-            <a className="prev" aria-disabled={page <= 1}>👈🏼 Prev</a>
+            <a className="prev" aria-disabled={page <= 1}>
+              👈🏼 Prev
+            </a>
           </Link>
-          <p>Page {page} of {pages}</p>
+          <p>
+            Page {page} of {pages}
+          </p>
           <p>{count} total items</p>
           <Link
             prefetch
@@ -50,7 +54,9 @@ const Pagination = props => (
               query: { page: page + 1 }
             }}
           >
-            <a className="next" aria-disabled={page >= pages}>Next 👉🏼</a>
+            <a className="next" aria-disabled={page >= pages}>
+              Next 👉🏼
+            </a>
           </Link>
         </PaginationStyles>
       );

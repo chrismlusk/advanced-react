@@ -4,10 +4,10 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Item from './Item';
 import Pagination from './Pagination';
-import { perPage } from '../config';
+import { PER_PAGE } from '../config';
 
 export const ALL_ITEMS_QUERY = gql`
-  query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
+  query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${PER_PAGE}) {
     items(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
@@ -40,7 +40,7 @@ class Items extends Component {
           query={ALL_ITEMS_QUERY}
           // fetchPolicy="network-only"
           variables={{
-            skip: this.props.page * perPage - perPage
+            skip: this.props.page * PER_PAGE - PER_PAGE
           }}
         >
           {({ error, loading, data }) => {
