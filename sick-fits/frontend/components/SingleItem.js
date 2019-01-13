@@ -26,7 +26,7 @@ const SingleItemStyles = styled.div`
   }
 `;
 
-const SINGLE_ITEM_QUERY = gql`
+export const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
     item(where: { id: $id }) {
       id
@@ -54,7 +54,7 @@ class SingleItem extends Component {
               <img src={item.largeImage} alt={item.title} />
               <div className="details">
                 <h2>Viewing {item.title}</h2>
-                <p>{item.description}</p>
+                <p data-test="graphql-test">{item.description}</p>
               </div>
             </SingleItemStyles>
           );
