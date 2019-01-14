@@ -5,7 +5,7 @@ import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
 import { CURRENT_USER_QUERY } from './User';
 
-const SIGNUP_MUTATION = gql`
+export const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
     $email: String!
     $name: String!
@@ -34,8 +34,7 @@ class Signup extends Component {
 
   handleSubmit = async (event, signupMutation) => {
     event.preventDefault();
-    const res = await signupMutation();
-    console.log(res);
+    await signupMutation();
     this.setState(this.initialState);
   };
 
@@ -47,7 +46,11 @@ class Signup extends Component {
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(signup, { error, loading }) => (
-          <Form method="post" onSubmit={e => this.handleSubmit(e, signup)}>
+          <Form
+            method="post"
+            data-test="form"
+            onSubmit={e => this.handleSubmit(e, signup)}
+          >
             <fieldset disabled={loading} aria-busy={loading}>
               <h2>Sign up</h2>
               <ErrorMessage error={error} />

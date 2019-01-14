@@ -38,8 +38,8 @@ const Cart = () => (
   <Composed>
     {({ user, toggleCart, localState }) => {
       const { me } = user.data;
-      const { name, cart } = me;
       if (!me) return null;
+      const { name, cart } = me;
       return (
         <CartStyles open={localState.data.cartOpen}>
           <header>

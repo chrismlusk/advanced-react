@@ -74,7 +74,10 @@ class CreateItem extends Component {
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { error, loading }) => (
-          <Form onSubmit={event => this.handleSubmit(event, createItem)}>
+          <Form
+            data-test="form"
+            onSubmit={event => this.handleSubmit(event, createItem)}
+          >
             <ErrorMessage error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
               <label htmlFor="file">
@@ -87,7 +90,11 @@ class CreateItem extends Component {
                   onChange={this.handleFileUpload}
                 />
                 {this.state.image && (
-                  <img src={this.state.image} width="200" alt="Upload preview" />
+                  <img
+                    src={this.state.image}
+                    width="200"
+                    alt="Upload preview"
+                  />
                 )}
               </label>
 
