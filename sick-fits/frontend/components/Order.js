@@ -9,7 +9,7 @@ import ErrorMessage from './ErrorMessage';
 import OrderItem from './OrderItem';
 import OrderStyles from './styles/OrderStyles';
 
-const SINGLE_ORDER_QUERY = gql`
+export const SINGLE_ORDER_QUERY = gql`
   query SINGLE_ORDER_QUERY($id: ID!) {
     order(id: $id) {
       id
@@ -43,7 +43,7 @@ class Order extends Component {
           if (error) return <ErrorMessage error={error} />;
           if (loading) return <p>Loading</p>;
           return (
-            <OrderStyles>
+            <OrderStyles data-test="order">
               <Head>
                 <title>Sick Fits - Order {order.id}</title>
               </Head>

@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Order /> renders and matches the snapshot 1`] = `
+<div
+  className="OrderStyles-sc-4oqalm-0 camMij"
+  data-test="order"
+>
+  <SideEffect(Head)>
+    <Head />
+  </SideEffect(Head)>
+  <p>
+    <span>
+      Order ID
+    </span>
+    <span>
+      ord123
+    </span>
+  </p>
+  <p>
+    <span>
+      Charge
+    </span>
+    <span>
+      ch_123
+    </span>
+  </p>
+  <p>
+    <span>
+      Date
+    </span>
+    <span>
+      March 31, 2018 7:00 PM
+    </span>
+  </p>
+  <p>
+    <span>
+      Total
+    </span>
+    <span>
+      $400
+    </span>
+  </p>
+  <p>
+    <span>
+      Item Count
+    </span>
+    <span>
+      2
+    </span>
+  </p>
+  <div
+    className="items"
+  >
+    <OrderItem
+      item={
+        Object {
+          "__typename": "OrderItem",
+          "description": "expedita est doloremque explicabo eaque necessitatibus sit",
+          "id": "b4505a74-1f67-4ee1-9558-e56760116bcd",
+          "image": "dolorem.jpg",
+          "price": 4234,
+          "quantity": 1,
+          "title": "nihil quam nulla est unde sit ex",
+        }
+      }
+      key="b4505a74-1f67-4ee1-9558-e56760116bcd"
+    >
+      <div
+        className="order-item"
+      >
+        <img
+          alt="nihil quam nulla est unde sit ex"
+          src="dolorem.jpg"
+        />
+        <div
+          className="item-details"
+        >
+          <h2>
+            nihil quam nulla est unde sit ex
+          </h2>
+          <p>
+            Qty: 
+            1
+          </p>
+          <p>
+            Each: 
+            $42.34
+          </p>
+          <p>
+            Subtotal: 
+            $42.34
+          </p>
+          <p>
+            expedita est doloremque explicabo eaque necessitatibus sit
+          </p>
+        </div>
+      </div>
+    </OrderItem>
+    <OrderItem
+      item={
+        Object {
+          "__typename": "OrderItem",
+          "description": "quis quae iusto sapiente nostrum aut corrupti",
+          "id": "4cef4042-dadc-4ad4-a066-08d01ced82d4",
+          "image": "et.jpg",
+          "price": 4234,
+          "quantity": 1,
+          "title": "voluptas culpa et vero repellat eveniet assumenda",
+        }
+      }
+      key="4cef4042-dadc-4ad4-a066-08d01ced82d4"
+    >
+      <div
+        className="order-item"
+      >
+        <img
+          alt="voluptas culpa et vero repellat eveniet assumenda"
+          src="et.jpg"
+        />
+        <div
+          className="item-details"
+        >
+          <h2>
+            voluptas culpa et vero repellat eveniet assumenda
+          </h2>
+          <p>
+            Qty: 
+            1
+          </p>
+          <p>
+            Each: 
+            $42.34
+          </p>
+          <p>
+            Subtotal: 
+            $42.34
+          </p>
+          <p>
+            quis quae iusto sapiente nostrum aut corrupti
+          </p>
+        </div>
+      </div>
+    </OrderItem>
+  </div>
+</div>
+`;

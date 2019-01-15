@@ -51,16 +51,21 @@ describe('<AddToCart />', () => {
     );
     await wait();
     wrapperWithConsumer.update();
-    const {
-      data: { me }
-    } = await apolloClient.query({ query: CURRENT_USER_QUERY });
-    expect(me.cart).toHaveLength(0);
+    const res = await apolloClient.query({ query: CURRENT_USER_QUERY });
+    expect(res.data.me.cart).toHaveLength(0);
     wrapperWithConsumer.find('button').simulate('click'); // add item
     await wait();
     const res2 = await apolloClient.query({ query: CURRENT_USER_QUERY });
-    const me2 = res2.data.me;
-    expect(me2.cart).toHaveLength(1);
-    expect(me2.cart[0].id).toBe('omg123');
-    expect(me2.cart[0].quantity).toBe(3);
+    expect(res2.data.me.cart).toHaveLength(1);
+    expect(res2.data.me.cart[0].id).toBe('omg123');
+    expect(res2.data.me.cart[0].quantity).toBe(3);
+  });
+
+  it('changes from `add` to `adding` when clicked', async () => {
+    await wait();
+    wrapper.update();
+    expect(wrapper.text()).toContain('Add to Cart');
+    wrapper.find('button').simulate('click');
+    expect(wrapper.text()).toContain('Adding to Cart');
   });
 });
